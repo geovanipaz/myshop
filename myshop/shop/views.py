@@ -1,5 +1,7 @@
+from django import forms
 from django.shortcuts import render, get_object_or_404
 from .models import Categoria, Produto
+from cart.forms import AddProdutoCarrinhoForm
 # Create your views here.
 
 def lista_produtos(request, slug_categoria = None):
@@ -15,5 +17,7 @@ def lista_produtos(request, slug_categoria = None):
                    'produtos':produtos})
     
 def detalhe_produto(request, id, slug):
-    produto = get_object_or_404(Produto, id=id, slug=slug, disponivel=True)
-    return render(request, 'shop/detail.html', {'produto':produto})
+    produto = get_object_or_404(Produto,  slug=slug, disponivel=True)
+    carrinho_produto_form = AddProdutoCarrinhoForm()
+    return render(request, 'shop/detail.html', {'produto':produto,
+                                                'carrinho_produto_form':carrinho_produto_form})
